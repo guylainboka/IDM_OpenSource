@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 320px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      font-size: 13px;
+    }
+    .header {
+      background: linear-gradient(135deg, #6d28d9, #4c1d95);
+      color: white;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header img { width: 28px; height: 28px; }
+    .header h1 { font-size: 16px; font-weight: 600; }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot.online { background: #10b981; box-shadow: 0 0 6px #10b981; }
+    .dot.offline { background: #ef4444; }
+    .status-text { flex: 1; }
+    .status-text strong { display: block; font-size: 13px; }
+    .status-text small { color: #64748b; font-size: 11px; }
+    .section-title {
+      padding: 8px 16px 4px;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .downloads {
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .download-item {
+      padding: 8px 16px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .download-item:hover { background: #f1f5f9; }
+    .dl-name {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 12px;
+    }
+    .dl-badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .b-completed { background: #d1fae5; color: #065f46; }
+    .b-downloading { background: #dbeafe; color: #1e40af; }
+    .b-failed { background: #fee2e2; color: #991b1b; }
+    .b-paused { background: #fef3c7; color: #92400e; }
+    .b-pending { background: #f1f5f9; color: #475569; }
+    .empty {
+      padding: 24px 16px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 12px;
+    }
+    .actions {
+      padding: 10px 16px;
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid #e2e8f0;
+    }
+    .btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary { background: #6d28d9; color: white; }
+    .btn-primary:hover { background: #7c3aed; }
+    .btn-secondary { background: #e2e8f0; color: #475569; }
+    .btn-secondary:hover { background: #cbd5e1; }
+    .add-url {
+      padding: 10px 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .add-url input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .add-url button {
+      width: 100%;
+      padding: 8px;
+      background: #6d28d9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="icons/icon32.png" alt="guymadown">
+    <h1>guymadown</h1>
+  </div>
+  <div class="status">
+    <span class="dot offline" id="dot"></span>
+    <div class="status-text">
+      <strong id="status-label">Vérification…</strong>
+      <small id="status-detail"></small>
+    </div>
+  </div>
+  <div class="add-url">
+    <input type="url" id="url-input" placeholder="Collez une URL à télécharger…">
+    <button id="add-btn">Ajouter et démarrer</button>
+  </div>
+  <div class="section-title">Téléchargements récents</div>
+  <div class="downloads" id="downloads"></div>
+  <div class="actions">
+    <button class="btn btn-secondary" id="options-btn">Options</button>
+    <button class="btn btn-primary" id="refresh-btn">Actualiser</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

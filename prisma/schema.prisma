@@ -1,0 +1,135 @@
+// guymadown - Download Manager
+// Prisma schema (SQLite) - persisted state for downloads, segments,
+// categories, queues, settings, errors and grabber projects.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Download {
+  id             String   @id @default(cuid())
+  url            String
+  finalUrl       String?
+  filename       String
+  category       String   @default("Autres")
+  mimeType       String?
+  size           BigInt   @default(0)
+  downloaded     BigInt   @default(0)
+  status         String   @default("pending") // pending|analyzing|queued|downloading|paused|completed|failed|cancelled|retrying
+  speed          Int      @default(0)         // bytes/sec (last sample)
+  avgSpeed       Int      @default(0)
+  eta            Int      @default(0)         // seconds
+  connections    Int      @default(8)
+  supportsRange  Boolean  @default(false)
+  etag           String?
+  lastModified   String?
+  server         String?
+  outputPath     String?
+  tempPath       String?
+  queueId        String?
+  error          String?
+  description    String?
+  segmentsTotal  Int      @default(0)
+  addedAt        DateTime @default(now())
+  startedAt      DateTime?
+  completedAt    DateTime?
+  lastTryAt      DateTime?
+  retries        Int      @default(0)
+
+  segments       Segment[]
+  errors         ErrorLog[]
+  queueItems     QueueItem[]
+
+  @@index([status])
+  @@index([category])
+  @@index([queueId])
+}
+
+model Segment {
+  id              String   @id @default(cuid())
+  downloadId      String
+  index           Int
+  startByte       BigInt
+  endByte         BigInt
+  downloadedBytes BigInt   @default(0)
+  status          String   @default("pending") // pending|downloading|completed|failed|idle
+  workerId        Int      @default(0)
+  downloadedAt    DateTime?
+
+  download        Download @relation(fields: [downloadId], references: [id], onDelete: Cascade)
+
+  @@index([downloadId])
+}
+
+model Category {
+  id           String  @id @default(cuid())
+  name         String  @unique
+  color        String  @default("#64748b")
+  extensions   String  @default("") // comma separated
+  destination  String?
+  namingRule   String?
+  position     Int     @default(0)
+}
+
+model Queue {
+  id                 String   @id @default(cuid())
+  name               String   @unique
+  maxConcurrent      Int      @default(2)
+  connectionsPerDl   Int      @default(8)
+  speedLimit         Int      @default(0) // bytes/sec, 0 = unlimited
+  priority           Int      @default(0)
+  active             Boolean  @default(false)
+  startAt            DateTime?
+  stopAt             DateTime?
+  retryMax           Int      @default(5)
+  endAction          String   @default("none") // none|notify|shutdown
+  createdAt          DateTime @default(now())
+
+  items              QueueItem[]
+}
+
+model QueueItem {
+  id         String   @id @default(cuid())
+  queueId    String
+  downloadId String
+  position   Int      @default(0)
+
+  queue      Queue    @relation(fields: [queueId], references: [id], onDelete: Cascade)
+  download   Download @relation(fields: [downloadId], references: [id], onDelete: Cascade)
+
+  @@unique([queueId, downloadId])
+  @@index([queueId])
+}
+
+model Setting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+model ErrorLog {
+  id         String   @id @default(cuid())
+  downloadId String?
+  code       String
+  message    String
+  timestamp  DateTime @default(now())
+
+  download   Download? @relation(fields: [downloadId], references: [id], onDelete: SetNull)
+
+  @@index([downloadId])
+}
+
+model GrabberProject {
+  id         String   @id @default(cuid())
+  url        String
+  depth      Int      @default(1)
+  maxPages   Int      @default(50)
+  status     String   @default("pending") // pending|running|completed|failed
+  config     String   @default("{}")
+  createdAt  DateTime @default(now())
+}

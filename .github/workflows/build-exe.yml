@@ -1,0 +1,79 @@
+name: Build Windows .exe
+
+on:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install main app dependencies
+        run: bun install
+
+      - name: Install engine dependencies
+        working-directory: mini-services/download-engine
+        run: bun install
+
+      - name: Generate Prisma client (with Windows target)
+        working-directory: mini-services/download-engine
+        run: |
+          bun add prisma @prisma/client
+          bun run generate
+
+      - name: Build Windows executable
+        working-directory: mini-services/download-engine
+        run: |
+          mkdir -p ../../build
+          bun build --compile --target=bun-windows-x64 --outfile=../../build/guymadown-engine.exe index.ts
+          ls -la ../../build/guymadown-engine.exe
+          file ../../build/guymadown-engine.exe
+
+      - name: Verify executable
+        run: |
+          file build/guymadown-engine.exe
+          test -f build/guymadown-engine.exe && echo "BUILD OK"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: guymadown-engine-windows-x64
+          path: build/guymadown-engine.exe
+          retention-days: 90
+
+      - name: Create GitHub Release (on tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/guymadown-engine.exe
+          name: guymadown ${{ github.ref_name }}
+          body: |
+            ## guymadown ${{ github.ref_name }}
+
+            Téléchargez `guymadown-engine.exe` ci-dessous.
+
+            ### Installation
+            1. Téléchargez `guymadown-engine.exe`
+            2. (Optionnel) Installez l'extension Chrome depuis le dépôt IDM_OpenSource_Ext
+            3. Lancez `guymadown-engine.exe` — le moteur démarre sur le port 3003
+            4. Ouvrez l'interface web sur `http://localhost:3000` (ou utilisez l'extension)
+          draft: false
+          prerelease: false

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>guymadown — Options</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 560px;
+      margin: 32px auto;
+      padding: 0 24px;
+      color: #1e293b;
+      background: #f8fafc;
+    }
+    h1 {
+      color: #6d28d9;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .subtitle { color: #64748b; margin-bottom: 24px; font-size: 14px; }
+    .card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 14px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .row:last-child { border-bottom: none; }
+    .row label { font-size: 14px; }
+    .row input[type="text"], .row textarea {
+      width: 240px;
+      padding: 6px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .row textarea { width: 100%; height: 60px; resize: vertical; }
+    .row select {
+      padding: 6px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .switch { position: relative; width: 44px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background: #cbd5e1; border-radius: 24px; transition: .3s;
+    }
+    .slider:before {
+      content: ""; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px;
+      background: white; border-radius: 50%; transition: .3s;
+    }
+    input:checked + .slider { background: #6d28d9; }
+    input:checked + .slider:before { transform: translateX(20px); }
+    .save {
+      background: #6d28d9; color: white; border: none; padding: 10px 24px;
+      border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    .save:hover { background: #7c3aed; }
+    .saved { color: #10b981; font-size: 13px; margin-left: 12px; display: none; }
+  </style>
+</head>
+<body>
+  <h1>guymadown — Options</h1>
+  <p class="subtitle">Configurez l'intégration du gestionnaire de téléchargement.</p>
+
+  <div class="card">
+    <h2>Interception</h2>
+    <div class="row">
+      <label>Intercepter les téléchargements du navigateur</label>
+      <label class="switch"><input type="checkbox" id="interceptDownloads" checked><span class="slider"></span></label>
+    </div>
+    <div class="row">
+      <label>Afficher le menu contextuel</label>
+      <label class="switch"><input type="checkbox" id="showContextMenu" checked><span class="slider"></span></label>
+    </div>
+    <div class="row">
+      <label>Détecter les médias sur les pages</label>
+      <label class="switch"><input type="checkbox" id="detectMedia" checked><span class="slider"></span></label>
+    </div>
+    <div class="row">
+      <label>Notifications</label>
+      <label class="switch"><input type="checkbox" id="showNotifications" checked><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Domaines exclus</h2>
+    <div class="row" style="flex-direction: column; align-items: stretch;">
+      <label style="margin-bottom: 8px;">Liste des domaines à ne pas intercepter (un par ligne ou séparés par virgule)</label>
+      <textarea id="excludedDomains" placeholder="exemple.com
+intranet.entreprise.com"></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Touches de contrôle</h2>
+    <div class="row">
+      <label>Touche pour forcer guymadown</label>
+      <select id="forceKey">
+        <option value="ctrl">Ctrl</option>
+        <option value="alt">Alt</option>
+        <option value="shift">Shift</option>
+        <option value="none">Aucune</option>
+      </select>
+    </div>
+    <div class="row">
+      <label>Touche pour empêcher l'interception</label>
+      <select id="blockKey">
+        <option value="alt">Alt</option>
+        <option value="ctrl">Ctrl</option>
+        <option value="shift">Shift</option>
+        <option value="none">Aucune</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="save" id="save">Enregistrer</button>
+  <span class="saved" id="saved">✓ Enregistré</span>
+
+  <script src="options.js"></script>
+</body>
+</html>

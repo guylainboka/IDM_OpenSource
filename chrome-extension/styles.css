@@ -1,0 +1,139 @@
+/* guymadown Chrome extension — styles for floating panel and popup */
+
+#guymadown-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 340px;
+  max-height: 420px;
+  background: #1e1e2e;
+  color: #e4e4e7;
+  border: 1px solid #3f3f5f;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 13px;
+  z-index: 2147483647;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#guymadown-panel .gd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: #181828;
+  border-bottom: 1px solid #2a2a3f;
+}
+
+#guymadown-panel .gd-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: #a78bfa;
+}
+
+#guymadown-panel .gd-close {
+  cursor: pointer;
+  font-size: 20px;
+  color: #888;
+  line-height: 1;
+}
+
+#guymadown-panel .gd-close:hover {
+  color: #fff;
+}
+
+#guymadown-panel .gd-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 0;
+  max-height: 280px;
+}
+
+#guymadown-panel .gd-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-bottom: 1px solid #2a2a3f;
+}
+
+#guymadown-panel .gd-item:hover {
+  background: #252535;
+}
+
+#guymadown-panel .gd-item input {
+  accent-color: #a78bfa;
+}
+
+#guymadown-panel .gd-type {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+#guymadown-panel .gd-video {
+  background: #4c1d95;
+  color: #ddd6fe;
+}
+
+#guymadown-panel .gd-audio {
+  background: #831843;
+  color: #fbcfe8;
+}
+
+#guymadown-panel .gd-stream {
+  background: #134e4a;
+  color: #99f6e4;
+}
+
+#guymadown-panel .gd-image {
+  background: #1e3a8a;
+  color: #bfdbfe;
+}
+
+#guymadown-panel .gd-media {
+  background: #713f12;
+  color: #fde68a;
+}
+
+#guymadown-panel .gd-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+#guymadown-panel .gd-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: #181828;
+  border-top: 1px solid #2a2a3f;
+}
+
+#guymadown-panel .gd-add-all {
+  background: #a78bfa;
+  color: #1e1e2e;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#guymadown-panel .gd-add-all:hover {
+  background: #c4b5fd;
+}
+
+#guymadown-panel .gd-count {
+  font-size: 11px;
+  color: #888;
+}

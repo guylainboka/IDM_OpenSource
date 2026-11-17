@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+*.exe
+*.dll
+
+# Database
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+db/*.db
+
+# Downloads (runtime data)
+download/*
+!download/README.md
+
+# Temp
+/tmp/guymadown/
+mini-services/download-engine/downloads/
+
+# Logs
+*.log
+dev.log
+engine.log
+server.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+mini-services/download-engine/.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Cache
+.cache/
+.turbo/
+.eslintcache
+
+# Tool results / temp
+tool-results/
+agent-ctx/
+verify-*.png
+
+# Uploaded files (user pasted content)
+upload/

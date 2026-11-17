@@ -1,0 +1,17 @@
+{
+  "name": "guymadown-download-engine",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bash run.sh",
+    "start": "bun index.ts",
+    "generate": "prisma generate",
+    "db:push": "prisma db push --accept-data-loss"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.11.1",
+    "prisma": "^6.11.1",
+    "socket.io": "^4.8.4"
+  }
+}
