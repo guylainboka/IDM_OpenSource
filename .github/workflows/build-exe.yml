@@ -36,8 +36,8 @@ jobs:
       - name: Generate Prisma client (with Windows target)
         working-directory: mini-services/download-engine
         run: |
-          bun add prisma @prisma/client
-          bun run generate
+          bun install prisma@^6.19.0 @prisma/client@^6.19.0
+          bunx prisma generate
 
       - name: Build Windows executable
         working-directory: mini-services/download-engine
